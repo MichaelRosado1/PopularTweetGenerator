@@ -13,7 +13,11 @@ auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET_KEY)
 auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
 api = tweepy.API(auth)
 
-#main function call 
+#This function will search through the latest top trending tweet and return a list of words
+def getWordsFromTweets():
+	tweets = api.search(q='basketball', result_type='popular')
+	print(tweets[0])
+	
 
 def postTweet(tweet):
 	try:
@@ -27,7 +31,8 @@ def postTweet(tweet):
 
 def main(): 
 	tweet = "Hello, world!"
-	postTweet(tweet)
+	#postTweet(tweet)
+	getWordsFromTweets()
 
 
 
