@@ -1,3 +1,5 @@
+import re
+import json
 import os
 import tweepy
 from dotenv import load_dotenv
@@ -15,9 +17,15 @@ api = tweepy.API(auth)
 
 #This function will search through the latest top trending tweet and return a list of words
 def getWordsFromTweets():
-	tweets = api.search(q='basketball', result_type='popular')
-	print(tweets[0])
-	
+	tweets = api.search(q='', result_type='popular')
+	text = ''
+
+	for tweet in tweets:
+		text += tweet.text
+
+	text = re.sub(r'https?:\/\/\S*', '', text, flags=re.MULTILINE)
+	print(text)
+
 
 def postTweet(tweet):
 	try:
