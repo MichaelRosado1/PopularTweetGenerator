@@ -49,7 +49,7 @@ def getWordsFromTweets(topic):
 
 def postTweet(tweet):
 	try:
-		#api.update_status(status = tweet)
+		api.update_status(status = tweet)
 		print('Tweet sent successfully')
 		print('Posted Tweet: ')
 		print(tweet)
@@ -67,12 +67,11 @@ def compose(g, tweet, length=50):
 
 
 def main(): 
-	tweet = getWordsFromTweets('Basketball')
-	g = makeGraph(tweet)
-	composition = compose(g, tweet, 20)
-	print(' '.join(composition))
-	#postTweet(' '.join(composition))
-
+    topic = input("Enter topic:")
+    tweet = getWordsFromTweets(topic)
+    g = makeGraph(tweet)
+    composition = compose(g, tweet, 20)
+    postTweet(' '.join(composition))
 
 
 main()
