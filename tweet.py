@@ -19,58 +19,58 @@ api = tweepy.API(auth)
 
 
 def makeGraph(words):
-	g = Graph()
+    g = Graph()
 
-	previousWord = None
+    previousWord = None
 
-	for word in words:
-		wordVertex = g.getVertex(word)
+    for word in words:
+        wordVertex = g.getVertex(word)
 
-		if previousWord:
-			previousWord.incrementEdge(wordVertex)
+        if previousWord:
+            previousWord.incrementEdge(wordVertex)
 
-		previousWord = wordVertex
+        previousWord = wordVertex
 
-	g.generateProbMapping()
-	return g
+    g.generateProbMapping()
+    return g
 
 
 #This function will search through the latest top trending tweet and return a list of words
 def getWordsFromTweets(topic):
-	tweets = api.search(q=topic, result_type='popular')
-	text = ""
-	for tweet in tweets:
-		text += tweet.text
+    tweets = api.search(q=topic, result_type='popular')
+    text = ""
+    for tweet in tweets:
+        text += tweet.text
 
-	text = re.sub(r'https?:\/\/\S*', '', text, flags=re.MULTILINE)
-	text = text.split()
-	return text
+    text = re.sub(r'https?:\/\/\S*', '', text, flags=re.MULTILINE)
+    text = text.split()
+    return text
 
 
 def postTweet(tweet):
-	try:
-		api.update_status(status = tweet)
-		print('Tweet sent successfully')
-		print('Posted Tweet: ')
-		print(tweet)
-	except:
-		print('Encountered error while trying to update status')
+    try:
+        api.update_status(status = tweet)
+        print('Tweet sent successfully')
+        print('Posted Tweet: ')
+        print(tweet)
+    except:
+        print('Encountered error while trying to update status')
 
 def compose(g, tweet, length=50):
-	composition = []
+    composition = []
 
-	word = g.getVertex(random.choice(tweet))
-	for _ in range(length):
-		composition.append(word.value)
-		word = g.getNextWord(word)
-	return composition
+    word = g.getVertex(random.choice(tweet))
+    for _ in range(length):
+        composition.append(word.value)
+        word = g.getNextWord(word)
+    return composition
 
 
 def main(): 
     topic = input("Enter topic:")
     tweet = getWordsFromTweets(topic)
     g = makeGraph(tweet)
-    composition = compose(g, tweet, 20)
+    composition = compose(g, tweet, 30)
     postTweet(' '.join(composition))
 
 
